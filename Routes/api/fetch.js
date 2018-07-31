@@ -1,6 +1,7 @@
 var router = require("express").Router();
-var fetchController = require("../../controllers/fetch");
+var fetchController = require("../../controllers/fetchController");
 
-router.get("/", fetchController.scrapeArticles);
+router.route("/")
+  .get(fetchController.scrapeArticles);     //or router.get("/", fetchController.scrapeArticles);
 
 module.exports = router;
