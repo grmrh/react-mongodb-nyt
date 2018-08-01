@@ -5,7 +5,8 @@ const articleSchema = new Schema({
   title: { type: String, required: true },
   url: { type: String, required: true },
   summary: { type: String, required: false }, 
-  date: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now }, 
+  saved: { type: Boolean, default: false }
 });
 
 const Article = mongoose.models.Article || mongoose.model("Article", articleSchema);

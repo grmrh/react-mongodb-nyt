@@ -1,19 +1,20 @@
 import React, { Component } from "react";
-import API from "../../utils/API";
+import API from "../../Utils/API";
 import { Link } from "react-router-dom";
+import { Col, Row, Container } from "../../Components/Grid";
 import { Input, FormBtn } from "../../Components/Form";
 import { List, ListItem } from "../../Components/List";
 import { SaveBtn } from "../../Components/SaveBtn"
-import { Container } from "../../components/Grid";
 
-class Search extends Components {
+class Search extends Component {
 
   state={
     articles: [],
-    articleSearch: "",
-    topic: "",
-    startYear: Date.now,
-    endYear: Date.now
+    articleSearch: {
+      topic: "",
+      startYear: Date.now,
+      endYear: Date.now
+    }
   };
 
   saveArticle = id => {
@@ -34,8 +35,7 @@ class Search extends Components {
   handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get articles update the articles state
     event.preventDefault();
-    if (this.state.topic && this.state.startYear && this.state.endYear) {
-      this.setState({articleSearch: `?topic={this.state.topic}&startYear={this.state.startYear}&endYear={this.state.endYear}`});
+    if (this.state.articleSearch.topic && this.state.articleSearch.startYear && this.state.articleSearch.endYear) {
       API.scrapeArticles(this.state.articleSearch)
       .then(res => this.setState({articles: res.data}))
       .catch(err => console.log(err));
@@ -46,22 +46,24 @@ class Search extends Components {
     return (
       <Container fluid>
       <Row>
-        <form>
-          <Input value={this.state.topic}
+        <Col size="xs-9 sm-10">
+          <Input value={this.state.articleSearch.topic}
                       onChange={this.handleInputChange}
                       name="topic" 
                       placeholder="Topic" />
-          <Input value={this.state.startYear} 
+          <Input value={this.state.articleSearch.startYear} 
                       onChange={this.handleInputChange} 
                       name="startYear" 
                       placeholder="Start year" />
-          <Input value={this.state.endYear} 
+          <Input value={this.state.articleSearch.endYear} 
                       onChange={this.handleInputChange} 
                       name="endYear" 
                       placeholder="End year" />
-          <FormBtn disabled={!this.state.topic || !this.state.startYear || !this.state.endYear} 
+        </Col>
+        <Col size="xs-3 sm-2">
+          <FormBtn disabled={!this.state.articleSearch.topic || !this.state.articleSearch.startYear || !this.state.articleSearch.endYear} 
                            onClick={this.handleFormSubmit} > Search </FormBtn>
-        </form>
+        </Col>
         </Row>
         <Row>
           <Col size="md-6 sm-12">
