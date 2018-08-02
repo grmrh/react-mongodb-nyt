@@ -7,12 +7,12 @@ import { Nav } from "./Components/Nav";
 
 const App = () => (
   <Router>
-    <div>
+    <div>0
       <Nav />
       <Switch>
         <Route exact path="/" component={Search} />
-        <Route exact path="/search" component={Search} />
-        <Route exact path="/articles/:id" component={Saved} />
+        <Route exact path="/articles" component={Search} />
+        <Route exact path="/articles/:id" component={Detail} />
         <Route component={NoMatch} />
       </Switch>
     </div>
