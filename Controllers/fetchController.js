@@ -9,6 +9,7 @@ module.exports = {
     return scrape()
       .then(function(articles) {
         // then insert articles into the db
+        console.log("fetch controller \n", articles);
         return db.Article.create(articles);
       })
       .then(function(dbArticle) {
@@ -18,10 +19,12 @@ module.exports = {
           });
         }
         else {
-          // Otherwise send back a count of how many new articles we got
+          console.log("dbArticle \n", dbArticle)
+          //Otherwise send back a count of how many new articles we got
           res.json({
             message: "Added " + dbArticle.length + " new articles!"
           });
+          //res.json(dbArticle);
         }
       })
       .catch(function(err) {

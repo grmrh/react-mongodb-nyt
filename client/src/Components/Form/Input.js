@@ -1,13 +1,7 @@
 import React from "react";
 
-export const Input = () => (
+export const Input = props => (
   <div className="form-group">
-    <input className="form-control" />
+    <input className="form-control" {...props} />
   </div>
 );
-
-// export const Input = props => (
-//   <div className="form-group">
-//     <input className="form-control" {...props} />
-//   </div>
-// );
