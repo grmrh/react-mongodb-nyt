@@ -1,0 +1,8 @@
+
+.panel-body a {
+  word-break: break-all;
+}
+
+.articleHeadline {
+  line-height: 1.5;
+}
