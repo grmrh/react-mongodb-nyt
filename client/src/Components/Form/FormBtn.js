@@ -6,6 +6,7 @@ export const FormBtn = props => (
   // </button>
 
 
-  <button type="submit" className="btn btn-primary" {...props}> {props.children}</button>
+  <button type="submit" className="btn btn-primary" {...props}>
+    <i className="fa fa-search"></i> {props.children}</button>
 
 );

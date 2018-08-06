@@ -1,4 +1,9 @@
 .save-btn {
   float: right;
-  color: #043a10;
+  border: solid .1rem #2A878C;
+  color: whitesmoke;
+  background-color: #3A3F44;
+  padding: .5rem;
+  vertical-align: middle;
+  font-size: 1rem;
 }

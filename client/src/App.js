@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Footer from "./Components/Footer";
 import Home from "./Pages/Home";
 import Saved from "./Pages/Saved";
 import NoMatch from "./Pages/NoMatch";
@@ -11,10 +12,11 @@ const App = () => (
       <Jumbotron text="New York Times Article Search" />
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/Home" component={Home} />
-        <Route exact path="/Saved" component={Saved} />
+        <Route exact path="/home" component={Home} />
+        <Route exact path="/saved/:id" component={Saved} />
         <Route component={NoMatch} />
       </Switch>
+      <Footer />
     </div>
   </Router>
 );

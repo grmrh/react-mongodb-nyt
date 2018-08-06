@@ -10,14 +10,21 @@ import SaveBtn from "../../Components/SaveBtn"
 class Home extends Component {
 
   state={
-    articles: [],
+    articles: [{
+      _id: "",
+      title: "",
+      url: "", 
+      date: "", 
+      saved: false
+    }],
     topic: "",
     startYear: "",
-    endYear: "",
-    _id: 0,
-    title: "",
-    date: Date.now,
-    url: ""
+    endYear: "", 
+    saveButtonDisabled: false
+    // _id: 0,
+    // title: "",
+    // date: Date.now,
+    // url: ""
   };
 
   // componentDidMount() {
@@ -32,15 +39,17 @@ class Home extends Component {
   //     .catch(err => console.log(err));
   // };
 
-  saveArticle = id => {
-    API.saveArticle(id)
-      .then(res =>console.log(res))
+  saveArticle = article => {
+    //const post = this.articles.filter( a => a._id === id);
+    API.saveArticle(article)
+      .then(res => {
+        console.log(res);
+      })
       .catch(err => console.log(err));
   };
 
   handleInputChange = event => {
-    // Destructure the name and value properties off of event.target
-    // Update the appropriate state
+    // Destructure the name and value properties off of event.target and update the appropriate state
     const { name, value } = event.target;
     this.setState({
       [name]: value
@@ -73,34 +82,40 @@ class Home extends Component {
 
     // build query string
     const queryURL = this.buildQueryURL();
-    let post=[];
    // API.getNYTArticles(queryURL)
     axios.get(queryURL)
     .then(res => {
-      
-      //let article = {};
-      //console.log(response.response.docs[0]);
-      console.log(res.data.response.docs[0]);
       const data = res.data.response.docs;
+      // take top 10 results
       const result = data.length > 10 ? data.slice(0, 10) : data;
-      console.log(result[0]._id, result[0].headline.main, result[0].web_url, result[0].pub_date);
-      post = result.map(a => {
-        this.setState({_id: a._id});
-        this.setState({title: a.headline.main});
-        this.setState({url: a.web_url});
-        this.setState({date: a.pub_Date});
-        return;
-        });
-      this.setState({articles: post});
-      })
+      const response = result.map(a => {
+        return {
+          _id: a._id,
+          title: a.headline.main,
+          url: a.web_url,
+          date: a.pub_date,
+          saved: false
+        }
+      });
+      console.log("articels \n", response);
+      this.setState({articles:response, topic: "", startYear: "", endYear: "" });
+    })
     .catch(err => console.log(err));
-  }
+  };
     
   render() {
+
+    const disabled = this.state.saveButtonDisabled ? 'disabled' : '';
     return (
       <Container>
         <Row>
           <Col size="xs-9 sm-10">
+            <h2 style={{"margin-top": "3rem"}}>Article search</h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col size="xs-9 sm-10">
+          <form>
             <Input value={this.state.topic}
                         onChange={this.handleInputChange}
                         name="topic" 
@@ -114,28 +129,44 @@ class Home extends Component {
                         name="endYear" 
                         placeholder="End year" />
             <FormBtn 
-              // disabled={!this.state.articleSearch.topic || !this.state.articleSearch.startYear || !this.state.articleSearch.endYear} 
+              disabled={!this.state.topic || !this.state.startYear || !this.state.endYear} 
               onClick={this.handleFormSubmit} > Search </FormBtn>
+            </form>
           </Col>
         </Row>
         <Row>
-          <Col size="md-6 sm-12">
-          {/* {this.state.articles.length ? (
-            <List>
-              {this.state.articles.map(article => (
-                <ListItem key={article._id}>
-                  <Link to={"/articles/" + article._id} >
-                    <strong>
-                      {article.title} in {article.date}
-                    </strong>
-                  </Link>
-                  <SaveBtn onClick={() => this.saveArticle(article._id)} />
-                </ListItem>
-              ))}
-            </List>
-          ) : (
-            <h2>No search results </h2>
-          )} */}
+          <Col size="xs-9 sm-10">
+            <h2 style={{"margin-top": "5rem"}}>Article search result</h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col size="xs-9 sm-10">          
+            {this.state.articles.length ? (  
+              <List>         
+                {this.state.articles.map(article => { 
+                  console.log(article);
+                  return (
+                    <ListItem key={article._id} 
+                              style={{"display": `${article.saved} ? "in-block" : "none"`}} 
+                              disabled={article.saved}                              
+                              onClick={() => {article.saved=true;this.saveArticle(article)}} >
+                      {/* <Link to={"/articles/" + article._id} > */}
+                      <Col size="xs-9 sm-10">
+                      {/* <Link to={article.url.replace("localhost:3000/", "")} >
+                        <strong><h4>{article.title}</h4></strong>
+                      </Link>   */}
+                      <a href={article.url}><strong><h4>{article.title}</h4></strong></a>                 
+                      <h6>{article.date}</h6>
+                      </Col>
+                      {/* <Col size="xs-3 sm-2">
+                        <SaveBtn display={article._id ? "in-block" : "none"} onClick={() => this.saveArticle(article._id)} />
+                      </Col>  */}
+                    </ListItem>
+                )})}
+              </List>   
+              ) : (
+              <h2>No search results </h2>            
+            )}
           </Col>
         </Row>
       </Container>
