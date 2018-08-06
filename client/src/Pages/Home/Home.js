@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import API from "../../Utils/API";
-import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../Components/Grid";
 import { Input, FormBtn } from "../../Components/Form";
 import { List, ListItem } from "../../Components/List";
@@ -21,31 +20,20 @@ class Home extends Component {
     startYear: "",
     endYear: "", 
     saveButtonDisabled: false
-    // _id: 0,
-    // title: "",
-    // date: Date.now,
-    // url: ""
   };
-
-  // componentDidMount() {
-  //   this.loadArticles();
-  // }
-
-  // loadArticles = () => {
-  //   API
-  //     .scrapeArticles()
-  //     .then(res => alert(res))
-  //     // .then(res => this.setState({articles: res.data}))
-  //     .catch(err => console.log(err));
-  // };
 
   saveArticle = article => {
     //const post = this.articles.filter( a => a._id === id);
+    article.saved = true;
     API.saveArticle(article)
       .then(res => {
         console.log(res);
+        alert("Saved successfully!")
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        alert("Saved previously!")
+      });
   };
 
   handleInputChange = event => {
@@ -97,7 +85,7 @@ class Home extends Component {
           saved: false
         }
       });
-      console.log("articels \n", response);
+      console.log("articles \n", response);
       this.setState({articles:response, topic: "", startYear: "", endYear: "" });
     })
     .catch(err => console.log(err));
@@ -105,12 +93,11 @@ class Home extends Component {
     
   render() {
 
-    const disabled = this.state.saveButtonDisabled ? 'disabled' : '';
     return (
       <Container>
         <Row>
           <Col size="xs-9 sm-10">
-            <h2 style={{"margin-top": "3rem"}}>Article search</h2>
+            <h2>Article search</h2>
           </Col>
         </Row>
         <Row>
@@ -136,42 +123,40 @@ class Home extends Component {
         </Row>
         <Row>
           <Col size="xs-9 sm-10">
-            <h2 style={{"margin-top": "5rem"}}>Article search result</h2>
+            <h2 style={{"marginTop": "5rem"}}>Article search result</h2>
           </Col>
         </Row>
         <Row>
           <Col size="xs-9 sm-10">          
-            {this.state.articles.length ? (  
+            {this.state.articles[0] && this.state.articles[0]._id && this.state.articles[0]._id.length ? (  
               <List>         
                 {this.state.articles.map(article => { 
                   console.log(article);
                   return (
                     <ListItem key={article._id} 
-                              style={{"display": `${article.saved} ? "in-block" : "none"`}} 
-                              disabled={article.saved}                              
-                              onClick={() => {article.saved=true;this.saveArticle(article)}} >
-                      {/* <Link to={"/articles/" + article._id} > */}
+                              // style={{"display": `${article.saved} ? "in-block" : "none"`}} 
+                              disabled={article.saved ? "disabled" : ""}                              
+                              onClick={() => {this.saveArticle(article)}} >
                       <Col size="xs-9 sm-10">
-                      {/* <Link to={article.url.replace("localhost:3000/", "")} >
-                        <strong><h4>{article.title}</h4></strong>
-                      </Link>   */}
                       <a href={article.url}><strong><h4>{article.title}</h4></strong></a>                 
                       <h6>{article.date}</h6>
                       </Col>
-                      {/* <Col size="xs-3 sm-2">
-                        <SaveBtn display={article._id ? "in-block" : "none"} onClick={() => this.saveArticle(article._id)} />
-                      </Col>  */}
+                      <Col size="xs-3 sm-2">
+                        <SaveBtn display={article._id ? "in-block" : "none"} 
+                                disabled={article.saved ? "disabled" : ""}    
+                                onClick={() => this.saveArticle(article)} />
+                      </Col> 
                     </ListItem>
                 )})}
               </List>   
               ) : (
-              <h2>No search results </h2>            
+              <h6>No search results </h6>            
             )}
           </Col>
         </Row>
       </Container>
       );
-  }
+  };
 }
 
 export default Home;

@@ -1,0 +1,12 @@
+
+footer {
+  position: absolute;
+  left:0;
+  bottom:0;
+  right: 0;
+  background-color: #1c1e22;
+  padding: 50px;
+  height: 100px;
+  margin-top: 50px;
+}
+

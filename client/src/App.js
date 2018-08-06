@@ -5,14 +5,16 @@ import Home from "./Pages/Home";
 import Saved from "./Pages/Saved";
 import NoMatch from "./Pages/NoMatch";
 import Jumbotron from "./Components/Jumbotron";
+import './App.css';
 
 const App = () => (
   <Router>
     <div>
-      <Jumbotron text="New York Times Article Search" />
+      <Jumbotron text="New York Times Article" />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/home" component={Home} />
+        <Route exact path="/saved" component={Saved} />
         <Route exact path="/saved/:id" component={Saved} />
         <Route component={NoMatch} />
       </Switch>

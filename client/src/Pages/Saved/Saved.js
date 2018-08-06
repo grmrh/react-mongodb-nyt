@@ -1,51 +1,95 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import API from "../../Utils/API";
-// import  Link  from "react-router-dom";
-// import { Input, FormBtn } from "../../Components/Form";
-// import { List, ListItem } from "../../Components/List";
-// import  SaveBtn  from "../../Components/SaveBtn";
-// import  Jumbotron  from "../../Components/Jumbotron";
+import { List, ListItem } from "../../Components/List";
+import  DeleteBtn  from "../../Components/DeleteBtn";
 import  {Col, Row, Container } from "../../Components/Grid";
-import  Card  from "../../Components/Card";
 
 class Saved extends Component {
   state = {
-    article: {}
+    articles: []
   };
 
   componentDidMount() {
-    API
-      .getArticle(this.props.match.params.id)
+    this.loadArticles();
+  }
+
+  loadArticles = () => {
+    API.getArticles()
       .then(res => {
-        this.setState({ article: res.data });
+        this.setState({ articles: res.data });
         console.log(res.data);
       })
       .catch(err => console.log(err));
   }
 
-  render() {
-    return (
-        <Container fluid>
-          <Row>
-            <Col size="md-12">
-              <h2>{this.state.article.title}</h2>
-            </Col>
-          </Row>
-          <Row>
-            <Col size="xs-12">
-                <h1 className="text-center">{this.state.blog.title}</h1>
-                    <h3>Hello World</h3>
-                    <Card
-                      title={this.state.blog.title}
-                      content={this.state.blog.content}
-                      imageSrc={this.state.blog.imageSrc}
-                      createdDt={this.state.blog.created_dt}
-                    />
-            </Col>
-          </Row>
-        </Container>
-    );
+  deleteArticle = id => {
+    API.deleteArticle(id)
+    .then(res => {
+      this.loadArticles();
+      console.log(res.data);
+      alert("Delete successfully");
+    })
+    .catch(err => console.log(err));
   }
+
+  displayArticle() {
+    API
+    .getArticle(this.props.match.params.id)
+    .then(res => {
+      this.setState({ article: res.data });
+      console.log(res.data);
+    })
+    .catch(err => console.log(err));
+  }
+
+  render() {
+
+    return (
+
+      <Container>
+        <Row>
+          <Col size="xs-9 sm-10">
+            <span><h2 style={{"marginTop": "5rem"}}>Articles saved to database</h2></span>
+          </Col>
+        </Row>
+        <Row>
+          <Col size="xs-9 sm-10">          
+            {this.state.articles[0] && this.state.articles[0]._id && this.state.articles[0]._id.length ? (  
+              <List>         
+                {this.state.articles.map(article => { 
+                  console.log(article);
+                  return (
+                    <ListItem key={article._id} 
+                              // style={{"display": `${article.saved} ? "in-block" : "none"`}} 
+                              // disabled={article.saved ? "disabled" : ""}                              
+                              // onClick={() => {this.saveArticle(article)}} 
+                              >
+                      {/* <Link to={"/articles/" + article._id} > */}
+                      <Col size="xs-9 sm-10">
+                      {/* <Link to={"/articles/" + article._id} >
+                        <strong><h4>{article.title}</h4></strong>
+                      </Link>   */}
+                      <a href={article.url} target="_blank" ><strong><h4>{article.title}</h4></strong></a>                 
+                      </Col>
+                      <Col size="xs-3 sm-2">
+                        {/* <DeleteBtn display={article._id ? "in-block" : "none"} 
+                                disabled={article.saved ? "disabled" : ""}    
+                                onClick={() => this.saveArticle(article)} /> */}
+                        <DeleteBtn onClick={() => this.deleteArticle(article._id)} />
+                      </Col> 
+                    </ListItem>
+                )})}
+              </List>   
+              ) : (
+              <h6>No results </h6>            
+            )}
+          </Col>
+        </Row>
+      </Container>
+      );
+  };
+
 }
 
 export default Saved;
