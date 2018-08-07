@@ -1,20 +1,24 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Search from "./Pages/Search";
-import Detail from "./Pages/Detail";
+import Footer from "./Components/Footer";
+import Home from "./Pages/Home";
+import Saved from "./Pages/Saved";
 import NoMatch from "./Pages/NoMatch";
-import { Nav } from "./Components/Nav";
+import Jumbotron from "./Components/Jumbotron";
+import './App.css';
 
 const App = () => (
   <Router>
-    <div>0
-      <Nav />
+    <div>
+      <Jumbotron text="New York Times Article" />
       <Switch>
-        <Route exact path="/" component={Search} />
-        <Route exact path="/articles" component={Search} />
-        <Route exact path="/articles/:id" component={Detail} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/home" component={Home} />
+        <Route exact path="/saved" component={Saved} />
+        <Route exact path="/saved/:id" component={Saved} />
         <Route component={NoMatch} />
       </Switch>
+      <Footer />
     </div>
   </Router>
 );

@@ -19,7 +19,8 @@ export default {
   },
   // // The getRecipes method retrieves recipes from the server
   // It accepts a "query" or term to search the recipe api for
-  scrapeArticles: function(query) {
-    return axios.get("/api/fetch", { params: {q: query } });
+  getNYTArticles: function(queryURL) {
+    //return axios.get("/api/fetch", { params: {q: queryURL } });
+    return axios.get(queryURL);
   }
 };
