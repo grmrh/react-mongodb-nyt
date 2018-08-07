@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import API from "../../Utils/API";
 import { Link } from "react-router-dom";
+import { Jumbotron } from "../../Components/Jumbotron";
 import { Col, Row, Container } from "../../Components/Grid";
 import { Input, FormBtn } from "../../Components/Form";
 import { List, ListItem } from "../../Components/List";
@@ -35,16 +36,30 @@ class Search extends Component {
     });
   };
 
+  componentDidMount() {
+    this.loadArticles();
+  }
+
+  loadArticles = () => {
+    API.scrapeArticles()
+      .then(res =>
+        this.setState({ articles: res.data})
+      )
+      .catch(err => console.log(err));
+  };
+
   handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get articles update the articles state
+    event.preventDefault();
     this.setState.articleSearch = {
       topic: this.state.topic,
       startYear: this.state.startYear,
       endYear: this.state.endYear
-    }
+    };
+
     console.log(this.setState.articleSearch);
     //alert('A form was submitted: ' + this.state.topic);
-    //event.preventDefault();
+
     // if (this.state.articleSearch.topic && this.state.articleSearch.startYear && this.state.articleSearch.endYear) {
       //this.state.articleSearch
       API.scrapeArticles()
@@ -58,22 +73,27 @@ class Search extends Component {
       <Container fluid>
       <Row>
         <Col size="xs-9 sm-10">
-          <Input value={this.state.topic}
-                      onChange={this.handleInputChange}
-                      name="topic" 
-                      placeholder="Topic" />
-          <Input value={this.state.startYear} 
-                      onChange={this.handleInputChange} 
-                      name="startYear" 
-                      placeholder="Start year" />
-          <Input value={this.state.endYear} 
-                      onChange={this.handleInputChange} 
-                      name="endYear" 
-                      placeholder="End year" />
-          <FormBtn 
-            // disabled={!this.state.articleSearch.topic || !this.state.articleSearch.startYear || !this.state.articleSearch.endYear} 
-            debugger
-            onClick={this.handleFormSubmit} > Search </FormBtn>
+          <Jumbotron>
+              <h1>What Books Should I Read?</h1>
+          </Jumbotron>
+          <form>
+            <Input value={this.state.topic}
+                        onChange={this.handleInputChange}
+                        name="topic" 
+                        placeholder="Topic" />
+            <Input value={this.state.startYear} 
+                        onChange={this.handleInputChange} 
+                        name="startYear" 
+                        placeholder="Start year" />
+            <Input value={this.state.endYear} 
+                        onChange={this.handleInputChange} 
+                        name="endYear" 
+                        placeholder="End year" />
+            <FormBtn 
+              // disabled={!this.state.articleSearch.topic || !this.state.articleSearch.startYear || !this.state.articleSearch.endYear} 
+
+              onClick={this.handleFormSubmit} > Search </FormBtn>
+          </form>
         </Col>
         </Row>
         <Row>
