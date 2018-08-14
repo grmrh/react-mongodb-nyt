@@ -8,7 +8,7 @@ import { List, ListItem } from "../../Components/List";
 import SaveBtn from "../../Components/SaveBtn";
 
 import io from 'socket.io-client';
-const socket = io('http://localhost:3001');
+const socket =  io();
 
 class Home extends Component {
 
