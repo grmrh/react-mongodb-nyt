@@ -9,6 +9,19 @@ const articleSchema = new Schema({
   saved: { type: Boolean, default: false }
 });
 
-const Article = mongoose.models.Article || mongoose.model("Article", articleSchema);
+module.exports = {
+  savedNotificationEmitter: function(io, socket) {
+    articleSchema.post('save', function(articleSaved) {
+      console.log('post hook title: ', `<a href=${articleSaved.url}><strong><h4>${articleSaved.title}</h4></strong></a>`);
+      io.emit('NOTIFY_ALL', articleSaved.title);
+    })
+  },
 
-module.exports = Article;
+  getArticle: function() {
+    const Article = mongoose.model("Article", articleSchema);
+    return Article;
+  }
+};
+
+
+

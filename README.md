@@ -1,84 +1,34 @@
-# Create React Express App
+# MERN and notification with socket.io
+Mongo-Express-React-Node and Socket.io
 
-## About This Boilerplate
+#### https://afternoon-oasis-35225.herokuapp.com/
+#### https://github.com/grmrh/Game-loved-by-all
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+API call to New York Times article repository, save and delete articles from the database. Each saving of articles triggers to broadcast to all connected users including self. 
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+## additional tool
+* bootstrap and its javascript
 
-## Starting the app locally
+## Design architecture
+* Two stateful and several stateless react components
+* React router
+* Socket.io provides a sort of real-time communication between client and server 
 
-Start by installing front and backend dependencies. While in this directory, run the following commands:
+## Usage
+* start the application by searching NYT articles. Enter search parameters. 
+* One can save any number of articles returned from NYT API call.
+* One can see the notification message appear in the screen as self or others save articles.
+* "Saved artices" directs user to the screen that shows articles saved in the database, where the user can delete them as wish.
+  
+## Database 
+* mongodb and mongoose ORM (or ODM as someone says so...)
 
-```
-yarn install
-cd client
-yarn install
-cd ..
-``
+## Authors
+* me
+* The most of time to complete this application spent on making the real-time notification work.
 
-After both installations complete, run the following command in your terminal:
+## Questions/suggestions
+* Please direct all questions/suggestions to me.
 
-```
-yarn start
-```
 
-That's it, your app should be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
 
-## Deployment (Heroku)
-
-### Create a Git Repo
-
-Once you're ready to deploy, start by making sure your project is a git repository. If so, proceed to the next section, otherwise run the following commands in your terminal:
-
-```
-git init
-git add .
-git commit -m "Initial commit"
-```
-
-### Heroku
-
-Make sure that you have a Heroku app created for this project. If so, proceed to the next section, otherwise run the following command in your terminal:
-
-```
-heroku create
-```
-
-Optionally add an argument for your application's name after `create`, e.g.
-
-```
-heroku myAwesomeApp
-```
-
-### Deploying
-
-#### Option 1
-
-Use the deploy script inside of the outer `package.json`
-
-After confirming that you have an up to date git repository and a Heroku app created, run the following command to deploy:
-
-```
-yarn deploy
-```
-
-If all previous steps were followed correctly, your application should be deployed to Heroku!
-
-#### Option 2
-
-Manually deploy 
-
-After confirming that you have an up to date git repository and a Heroku app created, complete the following:
-
-1. Build the React app for production by running the following command:
-
-```
-yarn build
-```
-
-2. Add and commit all changes to git
-
-3. Push to Heroku
-
-If all previous steps were followed correctly, your application should be deployed to Heroku!

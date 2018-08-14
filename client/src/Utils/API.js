@@ -17,8 +17,8 @@ export default {
   saveArticle: function(articleData) {
     return axios.post("/api/articles", articleData);
   },
-  // // The getRecipes method retrieves recipes from the server
-  // It accepts a "query" or term to search the recipe api for
+  // The getNYTArticles method retrieves articles from the server
+  // It accepts a "query" or term to search the articles api for
   getNYTArticles: function(queryURL) {
     //return axios.get("/api/fetch", { params: {q: queryURL } });
     return axios.get(queryURL);

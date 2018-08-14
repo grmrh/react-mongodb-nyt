@@ -1,5 +1,22 @@
+
+li {
+  background-color: #9eadbd;
+  color: black;
+}
+
+.list-group-item {
+  background-color: #9eadbd;
+  color: black;
+}
+
+.list-group-item:hover {
+  background-color: #7694b4;
+  color: black;
+}
+
+
 .list-overflow-container {
-  /* max-height: 545px; */
+  max-height: 545px;
   border: 1px #DDDDDD solid;
   border-radius: 4px;
   overflow-y: scroll;
@@ -21,8 +38,8 @@
 }
 
 .list-overflow-container li a {
-  /* color: #2A878C; */
-  color: #f89406;
+  /* color: rgb(222, 227, 228); */
+  color: #0a0a0a;
 }
 
 .list-overflow-container li:first-child {

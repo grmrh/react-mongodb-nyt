@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
+import './Home.css';
 import API from "../../Utils/API";
 import { Col, Row, Container } from "../../Components/Grid";
 import { Input, FormBtn } from "../../Components/Form";
 import { List, ListItem } from "../../Components/List";
-import SaveBtn from "../../Components/SaveBtn"
+import SaveBtn from "../../Components/SaveBtn";
+
+import io from 'socket.io-client';
+const socket = io('http://localhost:3001');
 
 class Home extends Component {
 
@@ -19,20 +23,26 @@ class Home extends Component {
     topic: "",
     startYear: "",
     endYear: "", 
-    saveButtonDisabled: false
+    saveButtonDisabled: false,
+    notifiedTitle: []
   };
 
+  componentDidMount() {
+    console.log("Home component did mount");
+    socket.on('NOTIFY_ALL', savedTitle => {
+      console.log("data in Home.js ", savedTitle);
+      this.setState({ notifiedTitle: [...this.state.notifiedTitle, savedTitle]});                                 
+    });
+  }
+
   saveArticle = article => {
-    //const post = this.articles.filter( a => a._id === id);
     article.saved = true;
     API.saveArticle(article)
       .then(res => {
-        console.log(res);
-        alert("Saved successfully!")
+        console.log('article saved ', res);
       })
       .catch(err => {
         console.log(err);
-        alert("Saved previously!")
       });
   };
 
@@ -92,16 +102,18 @@ class Home extends Component {
   };
     
   render() {
-
     return (
       <Container>
         <Row>
-          <Col size="xs-9 sm-10">
+          <Col size="sm-2 md-4">
             <h2>Article search</h2>
+          </Col>
+          <Col size="sm-10 md-8">
+            <h2>Notification for saved articles by another reader</h2>
           </Col>
         </Row>
         <Row>
-          <Col size="xs-9 sm-10">
+          <Col size="sm-2 md-4">
           <form>
             <Input value={this.state.topic}
                         onChange={this.handleInputChange}
@@ -120,28 +132,43 @@ class Home extends Component {
               onClick={this.handleFormSubmit} > Search </FormBtn>
             </form>
           </Col>
+           <Col size="sm-10 md-8">           
+             {this.state.notifiedTitle[0] && this.state.notifiedTitle[0].length > 0 ? (  
+              <List>         
+                {this.state.notifiedTitle.map(r => { 
+                  console.log(r);
+                  return (
+                    <ListItem  >
+                      <Col size="md-12">                             
+                      <h5><span style={{color:'rgb(255, 0, 0)'}}>An article</span> "{r}" saved by a reader!</h5>
+                      </Col>
+                    </ListItem>
+                )})}
+              </List>   
+              ) : (
+              <h6>No one posted articles yet </h6>            
+            )}
+          </Col>
         </Row>
         <Row>
-          <Col size="xs-9 sm-10">
+          <Col size="sm-12">
             <h2 style={{"marginTop": "5rem"}}>Article search result</h2>
           </Col>
         </Row>
         <Row>
-          <Col size="xs-9 sm-10">          
+          <Col size="sm-12">          
             {this.state.articles[0] && this.state.articles[0]._id && this.state.articles[0]._id.length ? (  
               <List>         
                 {this.state.articles.map(article => { 
                   console.log(article);
                   return (
                     <ListItem key={article._id} 
-                              // style={{"display": `${article.saved} ? "in-block" : "none"`}} 
-                              disabled={article.saved ? "disabled" : ""}                              
-                              onClick={() => {this.saveArticle(article)}} >
-                      <Col size="xs-9 sm-10">
-                      <a href={article.url}><strong><h4>{article.title}</h4></strong></a>                 
+                              disabled={article.saved ? "disabled" : ""} >
+                      <Col size="sm-9 md-10">
+                      <a href={article.url} target="_blank"><strong><h4>{article.title}</h4></strong></a>                 
                       <h6>{article.date}</h6>
                       </Col>
-                      <Col size="xs-3 sm-2">
+                      <Col size="sm-3 md-2">
                         <SaveBtn display={article._id ? "in-block" : "none"} 
                                 disabled={article.saved ? "disabled" : ""}    
                                 onClick={() => this.saveArticle(article)} />
@@ -150,7 +177,7 @@ class Home extends Component {
                 )})}
               </List>   
               ) : (
-              <h6>No search results </h6>            
+              <h6>No search result</h6>            
             )}
           </Col>
         </Row>

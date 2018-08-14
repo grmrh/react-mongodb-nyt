@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import API from "../../Utils/API";
 import { List, ListItem } from "../../Components/List";
 import  DeleteBtn  from "../../Components/DeleteBtn";
@@ -47,35 +46,24 @@ class Saved extends Component {
 
     return (
 
-      <Container>
+      <Container style={{"marginBottom": "5rem"}}>
         <Row>
-          <Col size="xs-9 sm-10">
-            <span><h2 style={{"marginTop": "5rem"}}>Articles saved to database</h2></span>
+          <Col size="md-12">
+            <span><h2 style={{"marginTop": "3rem"}}>Articles saved to database</h2></span>
           </Col>
         </Row>
         <Row>
-          <Col size="xs-9 sm-10">          
+          <Col size="md-12">          
             {this.state.articles[0] && this.state.articles[0]._id && this.state.articles[0]._id.length ? (  
-              <List>         
+              <List >         
                 {this.state.articles.map(article => { 
                   console.log(article);
                   return (
-                    <ListItem key={article._id} 
-                              // style={{"display": `${article.saved} ? "in-block" : "none"`}} 
-                              // disabled={article.saved ? "disabled" : ""}                              
-                              // onClick={() => {this.saveArticle(article)}} 
-                              >
-                      {/* <Link to={"/articles/" + article._id} > */}
-                      <Col size="xs-9 sm-10">
-                      {/* <Link to={"/articles/" + article._id} >
-                        <strong><h4>{article.title}</h4></strong>
-                      </Link>   */}
+                    <ListItem key={article._id} >
+                      <Col size="ms-9 md-10">
                       <a href={article.url} target="_blank" ><strong><h4>{article.title}</h4></strong></a>                 
                       </Col>
-                      <Col size="xs-3 sm-2">
-                        {/* <DeleteBtn display={article._id ? "in-block" : "none"} 
-                                disabled={article.saved ? "disabled" : ""}    
-                                onClick={() => this.saveArticle(article)} /> */}
+                      <Col size="ms-3 md-2">
                         <DeleteBtn onClick={() => this.deleteArticle(article._id)} />
                       </Col> 
                     </ListItem>
