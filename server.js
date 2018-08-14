@@ -5,6 +5,11 @@ const mongoose = require("mongoose");
 const routes = require("./routes");
 const PORT = process.env.PORT || 3001;
 const app = express();
+const iomiddleware = require('./iomiddleware')
+const http = require('http').Server(app);
+// wire up the express server to socket.io
+const io = require('socket.io')(http);
+iomiddleware(io, null);
 
 // Define middleware here
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,6 +28,6 @@ app.use(routes);
 mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nytreact");
 
-app.listen(PORT, function() {
+http.listen(PORT, function() {
   console.log(`🌎 ==> API Server now listening on port ${PORT}!`);
 });
