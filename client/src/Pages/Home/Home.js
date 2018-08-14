@@ -138,7 +138,7 @@ class Home extends Component {
                 {this.state.notifiedTitle.map(r => { 
                   console.log(r);
                   return (
-                    <ListItem  >
+                    <ListItem key={r.index}  >
                       <Col size="md-12">                             
                       <h5><span style={{color:'rgb(255, 0, 0)'}}>An article</span> "{r}" saved by a reader!</h5>
                       </Col>
