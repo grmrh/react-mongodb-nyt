@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import API from "../../Utils/API";
 import { List, ListItem } from "../../Components/List";
 import  DeleteBtn  from "../../Components/DeleteBtn";
-import  {Col, Row, Container } from "../../Components/Grid";
+import  { Col, Row, Container } from "../../Components/Grid";
 
 class Saved extends Component {
   state = {
@@ -45,7 +45,6 @@ class Saved extends Component {
   render() {
 
     return (
-
       <Container style={{"marginBottom": "5rem"}}>
         <Row>
           <Col size="md-12">
