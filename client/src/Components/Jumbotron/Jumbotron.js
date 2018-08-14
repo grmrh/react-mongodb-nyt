@@ -1,14 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-<<<<<<< HEAD
-export const Jumbotron = ({ children }) => (
-  <div
-    style={{ height: 300, clear: "both", paddingTop: 120, textAlign: "center" }}
-    className="jumbotron"
-  >
-    {children}
-=======
 const Jumbotron = props => (
 
   <div className="jumbotron" >
@@ -20,8 +12,8 @@ const Jumbotron = props => (
     ) : (
       <h3 className="text-center text-primary"><Link to="/" >To: Home</Link><i className="fa fa-arrow-left"></i></h3>
     )}
->>>>>>> c95549690f7f42923e26565222a56a909c31d375
   </div>
 
 );
 
+export default Jumbotron;
