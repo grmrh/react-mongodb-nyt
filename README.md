@@ -1,8 +1,8 @@
 # MERN and notification with socket.io
 Mongo-Express-React-Node and Socket.io
 
-#### https://afternoon-oasis-35225.herokuapp.com/
-#### https://github.com/grmrh/Game-loved-by-all
+#### https://quiet-plains-21099.herokuapp.com/
+#### https://github.com/grmrh/react-mongodb-nyt
 
 API call to New York Times article repository, save and delete articles from the database. Each saving of articles triggers to broadcast to all connected users including self. 
 
